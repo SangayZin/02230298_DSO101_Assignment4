@@ -42,7 +42,7 @@ class TestAddEndpoint:
     """Test add endpoint"""
 
     def test_add_endpoint(self, client):
-        """Test add endpoint with valid numbers"""
+        """Test add endpoint with valid numbers using path params"""
         response = client.get('/api/add/5/3')
         assert response.status_code == 200
         assert response.json['a'] == 5
@@ -51,9 +51,11 @@ class TestAddEndpoint:
         assert response.json['operation'] == 'addition'
 
     def test_add_endpoint_negative(self, client):
-        """Test add endpoint with negative numbers"""
-        response = client.get('/api/add/-5/3')
+        """Test add endpoint with negative numbers using query params"""
+        response = client.get('/api/add?a=-5&b=3')
         assert response.status_code == 200
+        assert response.json['a'] == -5
+        assert response.json['b'] == 3
         assert response.json['result'] == -2
 
     def test_add_endpoint_zero(self, client):
@@ -67,13 +69,21 @@ class TestMultiplyEndpoint:
     """Test multiply endpoint"""
 
     def test_multiply_endpoint(self, client):
-        """Test multiply endpoint with valid numbers"""
+        """Test multiply endpoint with valid numbers using path params"""
         response = client.get('/api/multiply/5/3')
         assert response.status_code == 200
         assert response.json['a'] == 5
         assert response.json['b'] == 3
         assert response.json['result'] == 15
         assert response.json['operation'] == 'multiplication'
+
+    def test_multiply_endpoint_negative(self, client):
+        """Test multiply endpoint with negative numbers using query params"""
+        response = client.get('/api/multiply?a=-5&b=3')
+        assert response.status_code == 200
+        assert response.json['a'] == -5
+        assert response.json['b'] == 3
+        assert response.json['result'] == -15
 
     def test_multiply_endpoint_zero(self, client):
         """Test multiply endpoint with zero"""

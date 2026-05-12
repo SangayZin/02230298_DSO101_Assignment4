@@ -1,7 +1,7 @@
 """
 Flask application for CI/CD pipeline demonstration
 """
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 import os
 
 app = Flask(__name__)
@@ -19,9 +19,30 @@ def health():
     return jsonify({'status': 'healthy'}), 200
 
 
+@app.route('/api/add')
+def add_numbers():
+    """Add two numbers - accepts query parameters for negative numbers
+    Usage: /api/add?a=-5&b=3
+    """
+    try:
+        a = int(request.args.get('a', 0))
+        b = int(request.args.get('b', 0))
+        result = a + b
+        return jsonify({
+            'a': a,
+            'b': b,
+            'result': result,
+            'operation': 'addition'
+        })
+    except (ValueError, TypeError):
+        return jsonify({'error': 'Invalid parameters'}), 400
+
+
 @app.route('/api/add/<int:a>/<int:b>')
-def add_numbers(a, b):
-    """Add two numbers"""
+def add_numbers_path(a, b):
+    """Add two numbers - path parameters for positive numbers
+    Usage: /api/add/5/3
+    """
     result = a + b
     return jsonify({
         'a': a,
@@ -31,9 +52,30 @@ def add_numbers(a, b):
     })
 
 
+@app.route('/api/multiply')
+def multiply_numbers():
+    """Multiply two numbers - accepts query parameters for negative numbers
+    Usage: /api/multiply?a=-5&b=3
+    """
+    try:
+        a = int(request.args.get('a', 1))
+        b = int(request.args.get('b', 1))
+        result = a * b
+        return jsonify({
+            'a': a,
+            'b': b,
+            'result': result,
+            'operation': 'multiplication'
+        })
+    except (ValueError, TypeError):
+        return jsonify({'error': 'Invalid parameters'}), 400
+
+
 @app.route('/api/multiply/<int:a>/<int:b>')
-def multiply_numbers(a, b):
-    """Multiply two numbers"""
+def multiply_numbers_path(a, b):
+    """Multiply two numbers - path parameters for positive numbers
+    Usage: /api/multiply/5/3
+    """
     result = a * b
     return jsonify({
         'a': a,
