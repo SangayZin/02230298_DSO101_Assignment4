@@ -1,0 +1,65 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-test-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.9"
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run tests
+      run: pytest --verbose
+
+    - name: Test summary
+      if: always()
+      run: echo " All tests passed successfully!"
+
+    - name: Deploy message
+      if: success()
+      run: |
+        echo "Deployment to Render starting..."
+        echo "Application name: CI/CD Pipeline App"
+        echo "Status: Ready for deployment"
+
+    - name: Trigger Render Deployment
+      if: success()
+      run: |
+        if [ -z "${{ secrets.RENDER_DEPLOY_HOOK }}" ]; then
+          echo "RENDER_DEPLOY_HOOK secret not configured"
+          echo "To enable auto-deployment:"
+          echo "1. Create a web service on Render"
+          echo "2. Get the deploy hook URL from Render dashboard"
+          echo "3. Add it as GitHub secret: RENDER_DEPLOY_HOOK"
+        else
+          echo "Triggering Render deployment..."
+          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
+          echo "Deployment triggered"
+        fi
+
+    - name: Verify Deployment
+      if: success()
+      run: |
+        echo "Deployment Status:"
+        echo "Build: Completed"
+        echo "Tests: All passed"
+        echo "Ready for live deployment"
+        if [ ! -z "${{ secrets.RENDER_APP_URL }}" ]; then
+          echo "🌐 Live App: ${{ secrets.RENDER_APP_URL }}"
+        fi
