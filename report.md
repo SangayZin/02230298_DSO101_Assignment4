@@ -287,18 +287,23 @@ Deployment validation that:
 
 **Figure 9.2:** Home Endpoint Response
 
-![alt text](Assets/5.png)
 *Screenshot of GET / endpoint returning welcome message*
+
+![alt text](Assets/5.png)
+
 
 **Figure 9.3:** Health Check Endpoint
 
-![alt text](Assets/6.png)
 *Screenshot of GET /health endpoint returning healthy status*
+
+![alt text](Assets/6.png)
+
 
 **Figure 9.4:** Addition API Endpoint
 
-![alt text](image.png)
 *Screenshot of GET /api/add/5/3 endpoint demonstrating API functionality*
+
+![alt text](image.png)
 
 ---
 
