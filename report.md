@@ -115,6 +115,7 @@ The workflow automates the entire pipeline from code commit to deployment.
 **Figure 5.1:** CI/CD Pipeline Execution Status
 
 ![alt text](Assets/1.png)
+
 *Screenshot showing the successful "build-test-deploy" workflow run*
 
 
@@ -277,21 +278,29 @@ Deployment validation that:
 ### Test Execution Evidence
 
 **Figure 9.1:** Pytest Test Execution
+
 ![alt text](Assets/4.png)
+
 *Screenshot of pytest run showing all tests passing successfully*
 
 ### Application Endpoints
 
 **Figure 9.2:** Home Endpoint Response
+
 ![alt text](Assets/5.png)
+
 *Screenshot of GET / endpoint returning welcome message*
 
 **Figure 9.3:** Health Check Endpoint
+
 ![alt text](Assets/6.png)
+
 *Screenshot of GET /health endpoint returning healthy status*
 
 **Figure 9.4:** Addition API Endpoint
+
 ![alt text](image.png)
+
 *Screenshot of GET /api/add/5/3 endpoint demonstrating API functionality*
 
 ---
